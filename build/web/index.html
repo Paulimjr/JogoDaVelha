@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jogo da Velha</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body style="background-color: #f6f6f6 !important;">
+    <style>
+        h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 {
+            font-family:'Source Sans Pro',sans-serif;
+        }
+        * {
+            font-family:'Source Sans Pro',sans-serif;
+        }
+        #text-bem-vindo {
+            margin-top: 35px !important;
+        }
+    </style>
+<center>
+    <h1 id="text-bem-vindo">Seja Bem vindo ao Jogo da Velha</h1>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        </br>
+        </br>
+        <form method="POST" action="JogoController" id="form-jogadores" class="form-group text-center">
+            <label for="jogador1">Informe o nome do Jogador 1</label>
+            <input type="text" name="jogador1" class="form-control" id="usuario" placeholder="Jogador 1" required/>
+            </br>
+            <label for="jogador2">Informe o nome do Jogador 2</label>
+            <input type="text" name="jogador2" class="form-control" id="usuario" placeholder="Jogador 2" required/>
+            </br>
+            </br>
+            <button type="submit" id="bt-comecar" class="btn btn-primary">Começar o Jogo</button>
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+</center>
+</body>
+</html>
