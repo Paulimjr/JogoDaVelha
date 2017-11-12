@@ -37,5 +37,6 @@ public class JogadasController {
         for (int i = 0; i < tabu.getTabs().size(); i++) {
             System.out.println("posicao: "+i+" - valor: "+tabu.getTabs().get(i));
         }
+        System.out.println("-------------------------------------------_");
     }
 }
