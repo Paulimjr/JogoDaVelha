@@ -7,6 +7,7 @@
     <servlet-mapping>
         <servlet-name>JogoController</servlet-name>
         <url-pattern>/JogoController</url-pattern>
+        <url-pattern>/JogoController/jogar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

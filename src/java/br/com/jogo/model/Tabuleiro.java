@@ -16,17 +16,25 @@ import java.util.List;
  */
 public class Tabuleiro implements Serializable {
     
-    private List<String> tabs = new ArrayList<>(9);
+    private List<String> tabs = new ArrayList<>(10);
     private String jogadador1;
     private String jogadador2;
     private String j1_X = "X";
     private String j2_O = "O";
+    private String jogador;
+
     
     public Tabuleiro() {
-        //iniciando todas as posições vazias
-        for (int i = 0; i < tabs.size(); i++) {
-            tabs.add("");
-        }
+        tabs.add(0, " ");
+        tabs.add(1, " ");
+        tabs.add(2, " ");
+        tabs.add(3, " ");
+        tabs.add(4, " ");
+        tabs.add(5, " ");
+        tabs.add(6, " ");
+        tabs.add(7, " ");
+        tabs.add(8, " ");
+        tabs.add(9, " ");
     }
 
     public List<String> getTabs() {
@@ -69,6 +77,14 @@ public class Tabuleiro implements Serializable {
         this.j2_O = j2_O;
     }
 
+    public String getJogador() {
+        return jogador;
+    }
+
+    public void setJogador(String jogador) {
+        this.jogador = jogador;
+    }
+    
     @Override
     public String toString() {
         return "Tabeuleiro{" + "tabs=" + tabs + ", jogadador1=" + jogadador1 + ", jogadador2=" + jogadador2 + ", j1_X=" + j1_X + ", j2_O=" + j2_O + '}';

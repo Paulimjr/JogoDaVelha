@@ -23,13 +23,19 @@ public class JogadasController {
      * @param tab o tabuleiro
      * @return 
      */
-    public boolean verificaLocalPreenchido(Tabuleiro tab, int posicao) {
-        boolean preenchido = false;
+    public boolean verificaLocalPreenchido(int posicao, Tabuleiro tab) {
+        boolean valido = true;
         
-        if (!tab.getTabs().get(posicao).isEmpty()) {
-            preenchido = true;
+        if (tab.getTabs().get(posicao).equals("X") || tab.getTabs().get(posicao).equals("O")) {
+            valido = false;
         }
         
-        return preenchido;
+        return valido;
+    }
+
+    void verPreenchimentos(Tabuleiro tabu) {
+        for (int i = 0; i < tabu.getTabs().size(); i++) {
+            System.out.println("posicao: "+i+" - valor: "+tabu.getTabs().get(i));
+        }
     }
 }

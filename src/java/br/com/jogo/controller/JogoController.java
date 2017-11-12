@@ -7,7 +7,6 @@ package br.com.jogo.controller;
 
 import br.com.jogo.model.Tabuleiro;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,12 +34,47 @@ public class JogoController extends HttpServlet {
             
             tabuleiro.setJogadador1(jogador1);
             tabuleiro.setJogadador2(jogador2);
-            
+            tabuleiro.setJogador(tabuleiro.getJ1_X());
+            System.out.println("Iniciar em: "+tabuleiro.getJogador());
             HttpSession session = request.getSession(true);
             session.setAttribute("tabuleiro", tabuleiro);
+            
+            Tabuleiro t = (Tabuleiro) session.getAttribute("tabuleiro");
+            
+            System.out.println("Jogador 1: "+t.getJogadador1());
+            System.out.println("Jogador 2: "+t.getJogadador2());
             //chamando a tabela inicial
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("jogo.jsp");
         }
+        
+        if (urlPath.equals("/JogoController/jogar")) {
+            
+            String[] arrPosicao = (String[]) request.getParameterValues("posicao");
+            String[] arrSimbolo = (String[]) request.getParameterValues("simbolo");
+            
+            int pos = Integer.parseInt(arrPosicao[0]);
+            System.out.println("posicao jogada: "+pos); //mostra a posicao jogada
+            String simbolo = arrSimbolo[0];
+            System.out.println("Simbolo: "+simbolo); // mostra o simbolo jogado
+            
+            Tabuleiro tabu = (Tabuleiro) request.getSession().getAttribute("tabuleiro");
+            boolean valido = new JogadasController().verificaLocalPreenchido(pos, tabu);
+            if (valido) {
+                tabu.getTabs().add(pos, simbolo);
+                
+                if (simbolo.equals("X")) { // VEZ DO O 
+                    tabu.setJogador("O");
+                }
+                if (simbolo.equals("O")) { // VEZ DO X
+                    tabu.setJogador("X");
+                } 
+                
+                new JogadasController().verPreenchimentos(tabu);
+                request.getSession().setAttribute("tabuleiro", tabu);
+                request.getRequestDispatcher("/").forward(request, response);
+            }
+        }
+        
         
     }
 
@@ -82,5 +116,6 @@ public class JogoController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 
 }
