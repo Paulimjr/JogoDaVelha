@@ -6,9 +6,6 @@
 package br.com.jogo.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Tabuleiro para controlar o Jogo
  * 
@@ -23,6 +20,9 @@ public class Tabuleiro implements Serializable {
     private String j2_O = "O";
     private String jogador;
     private String ganhador;
+    private int empates;
+    private int vitoriasX;
+    private int vitoriasY;
     
     public String getTabs() {
         return tabuleiro;
@@ -86,6 +86,30 @@ public class Tabuleiro implements Serializable {
 
     public void setGanhador(String ganhador) {
         this.ganhador = ganhador;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+
+    public int getVitoriasX() {
+        return vitoriasX;
+    }
+
+    public void setVitoriasX(int vitoriasX) {
+        this.vitoriasX = vitoriasX;
+    }
+
+    public int getVitoriasY() {
+        return vitoriasY;
+    }
+
+    public void setVitoriasY(int vitoriasY) {
+        this.vitoriasY = vitoriasY;
     }
     
     @Override

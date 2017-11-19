@@ -35,6 +35,9 @@ public class JogoController extends HttpServlet {
             Tabuleiro tabuleiro = new Tabuleiro();
             tabuleiro.setJogadador1(jogador1);
             tabuleiro.setJogadador2(jogador2);
+            tabuleiro.setEmpates(0);
+            tabuleiro.setVitoriasX(0);
+            tabuleiro.setVitoriasY(0);
             tabuleiro.setJogador(tabuleiro.getJ1_X()); // Setando o X pois ele que sempe começara.
 
             HttpSession session = request.getSession(true);
@@ -43,8 +46,6 @@ public class JogoController extends HttpServlet {
 
             Tabuleiro t = (Tabuleiro) session.getAttribute("tabuleiro");
 
-            System.out.println("Jogador 1: " + t.getJogadador1());
-            System.out.println("Jogador 2: " + t.getJogadador2());
             //chamando a tabela inicial
             response.sendRedirect("jogador.jsp");
         }
@@ -68,9 +69,7 @@ public class JogoController extends HttpServlet {
             String[] arrSimbolo = (String[]) request.getParameterValues("simbolo");
 
             int pos = Integer.parseInt(arrPosicao[0]);
-            System.out.println("posicao jogada: " + pos); //mostra a posicao jogada
             String simbolo = arrSimbolo[0];
-            System.out.println("Simbolo: " + simbolo); // mostra o simbolo jogado
 
             Tabuleiro tabu = (Tabuleiro) request.getSession().getAttribute("tabuleiro");
 
@@ -84,16 +83,21 @@ public class JogoController extends HttpServlet {
                  * 3 - deu nega
                  */
                 int ganhador = new JogadasController().verificarQuemGanhou(tabuNew, simbolo);
-                System.out.println("GANHADOR: "+ganhador);
+                
                 String nomeGanhador = "";
+                int ganhouX = tabu.getVitoriasX();
+                int ganhouY = tabu.getVitoriasY();
+                int empate = tabu.getEmpates();
                 
                 if (ganhador == 1) {
                     // X GANHOU
                     if (simbolo.equals(tabu.getJ1_X())) {
+                         ganhouX++;
                          nomeGanhador = "Parabéns "+tabu.getJogadador1()+", você venceu!";
                     }
                     // O GANHOU
                     if (simbolo.equals(tabu.getJ2_O())) {
+                        ganhouY++;
                         nomeGanhador = "Parabéns "+tabu.getJogadador2()+", você venceu!";
                     }
                 }
@@ -101,11 +105,13 @@ public class JogoController extends HttpServlet {
                 ganhador = new JogadasController().verificarNenhumVencedor(tabuNew, simbolo);
                 //Quer dizer que não houve ganhadores...
                 if (ganhador == 3) {
-                    nomeGanhador = "Ninguém venceu :( ... Começe novamente!";
-                    System.out.println("------------ Nao houve ganhadores ------------");
-                    
+                    empate++;
+                    nomeGanhador = "Ninguém venceu :( ... Começe novamente!";                 
                 }
                 
+                tabu.setEmpates(empate);
+                tabu.setVitoriasX(ganhouX);
+                tabu.setVitoriasY(ganhouY);
                 tabu.setGanhador(nomeGanhador);
                 tabu.setTabuleiro(tabuNew);
                 

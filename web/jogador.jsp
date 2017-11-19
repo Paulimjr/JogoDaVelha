@@ -43,47 +43,56 @@
         <div class="container-fluid">
             <%
                 Tabuleiro tabuleiro = (Tabuleiro) request.getSession().getAttribute("tabuleiro");
-                String [] tabu = tabuleiro.getTabuleiro().split(";");
-                System.out.println("TABUUU: "+tabuleiro.getGanhador());
+                String[] tabu = tabuleiro.getTabuleiro().split(";");
             %>
-            
+
             <input type="hidden" name="simbolo" id="simbolo" value="<% out.print(tabuleiro.getJogador()); %>"/>
-            <%  if (tabuleiro.getGanhador() != null && !tabuleiro.getGanhador().isEmpty()) {                    
-                out.print("<div class='row-fluid text-center' id='d_vencedor'>");
-                if (tabuleiro.getGanhador() != null && !tabuleiro.getGanhador().isEmpty()) {
-                    out.print("<h2> "+tabuleiro.getGanhador()+"</h2>");
+            <%  if (tabuleiro.getGanhador() != null && !tabuleiro.getGanhador().isEmpty()) {
+                    out.print("<div class='row-fluid text-center' id='d_vencedor'>");
+                    if (tabuleiro.getGanhador() != null && !tabuleiro.getGanhador().isEmpty()) {
+                        out.print("<h2> " + tabuleiro.getGanhador() + "</h2>");
+                    }
+                    out.print("</div>");
                 }
-                out.print("</div>");
-                }
-             %>
+            %>
             <input type="hidden" name="vencedor" id="vencedor" value="<% out.print(tabuleiro.getGanhador()); %>"/>
-            
+
             <div class="col-sm-3 text-center">
                 <br>
                 <br> 
-                <br>
+                <br> 
                 <h4>
                     <%
-                        out.println("Jogador 1 - " + tabuleiro.getJogadador1());
+                        out.println("<b>Jogador 1 - </b>" + tabuleiro.getJogadador1());
                         out.println("<p>");
                         out.println("<p>");
-                        out.println("Símbolo - " + tabuleiro.getJ1_X());
+                        out.println("<b>Vitórias: </b>" + tabuleiro.getVitoriasX());
+                        out.println("<p>");
+                        out.println("<b>Símbolo - </b>" + tabuleiro.getJ1_X());
                     %>
                 </h4>
-                <br>
-                 <h4>
+                <hr style="border-color:  #000;">
+                <h4>
                     <%
-                        out.println("Jogador 2 - " + tabuleiro.getJogadador2());
+                        out.println("<b>Jogador 2 -</b> " + tabuleiro.getJogadador2());
                         out.println("<p>");
                         out.println("<p>");
-                        out.println("Símbolo - " + tabuleiro.getJ2_O());
+                        out.println("<b>Vitórias:</b> " + tabuleiro.getVitoriasY());
+                        out.println("<p>");
+                        out.println("<b>Símbolo - </b> " + tabuleiro.getJ2_O());
+                    %>
+                </h4>
+                <hr style="border-color:  #000;">
+                <h4>
+                    <%
+                        out.println("<b>Empates: </b> " + tabuleiro.getEmpates());
                     %>
                 </h4>
             </div>
 
             <div class="col-sm-6 text-center">
                 <h1>Jogo da Velha</h1>
-                <div class="col-sm-12 text-center">
+                <div class="col-sm-12 text-center" style="margin-left: 65px !important;">
                     <div class="row text-center tabu">
                         <div class="col-sm-2 linha" id="0" onclick="jogar(this);">
                             <% if (tabuleiro.getTabuleiro() != null) {
@@ -92,7 +101,7 @@
                             %>
                         </div>
                         <div class="col-sm-2 linha" id="1" onclick="jogar(this);">
-                             <% if (tabuleiro.getTabuleiro() != null) {
+                            <% if (tabuleiro.getTabuleiro() != null) {
                                     out.println(tabu[1].toString());
                                 }
                             %>
@@ -106,7 +115,7 @@
                     </div>
                     <div class="row text-center tabu">
                         <div class="col-sm-2 linha" id="3" onclick="jogar(this);">
-                             <% if (tabuleiro.getTabuleiro() != null) {
+                            <% if (tabuleiro.getTabuleiro() != null) {
                                     out.println(tabu[3].toString());
                                 }
                             %>
@@ -132,7 +141,7 @@
                             %>
                         </div>
                         <div class="col-sm-2 linha" id="7" onclick="jogar(this);">
-                             <% if (tabuleiro.getTabuleiro() != null) {
+                            <% if (tabuleiro.getTabuleiro() != null) {
                                     out.println(tabu[7].toString());
                                 }
                             %>
@@ -144,13 +153,13 @@
                             %>
                         </div>
                     </div>
-                            <h4>É sua vez - <b><% out.println(tabuleiro.getJogador()); %> </b></h4>
-                            <br>
-                            <form action="JogoController/comecarNovamente" method="POST">
-                                <button class="btn btn-primary" type="submit" value="Começar Novamente">Começar Novamente</button>
-                            </form>
-                            <br>
-                            <a href="/JogoDaVelha">Escolher jogadores novamente.</a>
+                    <h4>É sua vez - <b><% out.println(tabuleiro.getJogador());%> </b></h4>
+                    <br>
+                    <form action="JogoController/comecarNovamente" method="POST">
+                        <button class="btn btn-primary" type="submit" value="Começar Novamente">Começar Novamente</button>
+                    </form>
+                    <br>
+                    <a href="/JogoDaVelha">Escolher jogadores novamente.</a>
                 </div>
             </div>
         </div>
@@ -158,23 +167,23 @@
 
     <script type="text/javascript">
 
-        function jogar(evento) { 
+        function jogar(evento) {
             var id = evento.id;
             var simbolo = $("#simbolo").val().trim();
 
             $.ajax({
                 type: "POST",
                 url: "JogoController/jogar",
-                data: { 	
-		       posicao: id,
-		       simbolo: simbolo
-		},
+                data: {
+                    posicao: id,
+                    simbolo: simbolo
+                },
                 success: function (result) {
                     console.log(result);
                     $('.container-fluid').load('jogador.jsp'); // carregar a página a cada jogada efetuada.       
                 }
-            });   
+            });
         }
-        
+
     </script>
 </html>

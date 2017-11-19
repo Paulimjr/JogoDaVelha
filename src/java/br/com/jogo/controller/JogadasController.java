@@ -5,8 +5,6 @@
  */
 package br.com.jogo.controller;
 
-import br.com.jogo.model.Tabuleiro;
-
 /**
  * Controlar jogadas realizadas pelos jogadores
  *
@@ -14,7 +12,7 @@ import br.com.jogo.model.Tabuleiro;
  */
 public class JogadasController {
     
-    private String vezDoJogador = "É sua vez - ";
+    private final String vezDoJogador = "É sua vez - ";
     
     /**
     * 1 - alguem ganhou
@@ -50,45 +48,28 @@ public class JogadasController {
      * @return 
      */
     public String efetuarJogada(int pos, String simbolo, String tabuleiro) {
-        String jogou = "";
-        System.out.println("POSIÇÃO: "+pos+" - SIMBOLO: "+simbolo);
-        
+        String jogou = ""; 
         String[] tab = tabuleiro.split(";");
-        
-        System.out.println("Antes de preencher --------------");
-        for (int i = 0; i < tab.length; i++) {
-            System.out.println("Pos: "+i+" - Valor: "+tab[i]);
-        }
-        
-        System.out.println("Depois de preencher ----------------");
         tab[pos] = simbolo;
-        
-        for (int i = 0; i < tab.length; i++) {
-            System.out.println("Pos: "+i+" - Valor: "+tab[i]);
-        }
-        
-        System.out.println("O QUE VAI RETORNAR >>>>>>>>> ");
-        int cont = 0;
+
         for(int i =0; i< tab.length; i++) {
             jogou += tab[i].trim()+" ;";
         }
-        
-        System.out.println("JOGOU >>>>>  "+jogou);
+
         return jogou;
     }
-
+    
+    /**
+     * Verificando quem ganhou a jogada
+     * 
+     * @param tabuNew
+     * @param s
+     * @return 
+     */
     int verificarQuemGanhou(String tabuNew, String s) {
-        System.out.println("Simbolo verificar:"+s);
         String[] tabu = tabuNew.split(";");
-        System.out.println(" ----- verificando ganhador ---- ");
-        for(int i =0; i< tabu.length; i++) {
-             System.out.println("Pos: "+i+" - Valor: "+tabu[i]);
-        }
-           
-        System.out.println(tabu[0]);
         String simbolo = s+" ";
-        System.out.println(simbolo);
- 
+    
         if (tabu[0].equals(simbolo) && tabu[1].equals(simbolo) && tabu[2].equals(simbolo)) {
             GANHOU = 1;
         }
@@ -124,10 +105,7 @@ public class JogadasController {
         if (tabu[2].equals(simbolo) && tabu[4].equals(simbolo) && tabu[6].equals(simbolo)) {
             GANHOU = 1;
         }
-        
-
-        System.out.println("GANHOU ?? "+GANHOU);
-        
+    
         return GANHOU;
     }
     
@@ -140,7 +118,6 @@ public class JogadasController {
      */
     public int verificarNenhumVencedor(String tabuNew, String s) {
          String[] tabu = tabuNew.split(";");
-         String simbolo = s+" ";
          
          if (!tabu[0].equals(" ") 
             && !tabu[1].equals(" ") 
