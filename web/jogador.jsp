@@ -43,11 +43,18 @@
         <div class="container-fluid">
             <%
                 Tabuleiro tabuleiro = (Tabuleiro) request.getSession().getAttribute("tabuleiro");
+                String [] tabu = tabuleiro.getTabuleiro().split(";");
+                for (int x=0;x < tabu.length;x++) {
+                    System.out.println("TABULEIRO: POS: "+x+" -  Vlr: "+tabu[x]);
+                }
             %>
             
             <input type="hidden" name="simbolo" id="simbolo" value="<% out.print(tabuleiro.getJogador()); %>"/>
             
             <div class="col-sm-3 text-center">
+                <br>
+                <br> 
+                <br>
                 <h4>
                     <%
                         out.println("Jogador 1 - " + tabuleiro.getJogadador1());
@@ -56,76 +63,8 @@
                         out.println("Símbolo - " + tabuleiro.getJ1_X());
                     %>
                 </h4>
-            </div>
-
-            <div class="col-sm-6 text-center">
-                <h1>Jogo da Velha</h1>
-                <div class="col-sm-12 text-center">
-                    <div class="row text-center tabu">
-                        <div class="col-sm-2 linha" id="1" onclick="jogar(this);">
-                            <% if (tabuleiro.getTabs() != null) {
-                                    out.println(tabuleiro.getTabs().get(1));
-                                }
-                            %>
-                        </div>
-                        <div class="col-sm-2 linha" id="2" onclick="jogar(this);">
-                            <% if (tabuleiro.getTabs() != null) {
-                                    out.println(tabuleiro.getTabs().get(2));
-                                }
-                            %>
-                        </div>
-                        <div class="col-sm-2 linha" id="3" onclick="jogar(this);">
-                            <% if (tabuleiro.getTabs() != null) {
-                                    out.println(tabuleiro.getTabs().get(3));
-                                }
-                            %>
-                        </div>
-                    </div>
-                    <div class="row text-center tabu">
-                        <div class="col-sm-2 linha" id="4" onclick="jogar(this);">
-                            <% if (tabuleiro.getTabs() != null) {
-                                    out.println(tabuleiro.getTabs().get(4));
-                                }
-                            %>
-                        </div>
-                        <div class="col-sm-2 linha" id="5" onclick="jogar(this);">
-                            <% if (tabuleiro.getTabs() != null) {
-                                    out.println(tabuleiro.getTabs().get(5));
-                                }
-                            %>
-                        </div>
-                        <div class="col-sm-2 linha" id="6" onclick="jogar(this);">
-                            <% if (tabuleiro.getTabs() != null) {
-                                    out.println(tabuleiro.getTabs().get(6));
-                                }
-                            %>
-                        </div>
-                    </div>
-                    <div class="row text-center tabu">
-                        <div class="col-sm-2 linha" id="7" onclick="jogar(this);">
-                            <% if (tabuleiro.getTabs() != null) {
-                                    out.println(tabuleiro.getTabs().get(7));
-                                }
-                            %>
-                        </div>
-                        <div class="col-sm-2 linha" id="8" onclick="jogar(this);">
-                            <% if (tabuleiro.getTabs() != null) {
-                                    out.println(tabuleiro.getTabs().get(8));
-                                }
-                            %>
-                        </div>
-                        <div class="col-sm-2 linha" id="9"  onclick="jogar(this);">
-                            <% if (tabuleiro.getTabs() != null) {
-                                   out.println(tabuleiro.getTabs().get(9));
-                                }
-                            %>
-                        </div>
-                    </div>
-                            <h4>É sua vez - <b><% out.println(tabuleiro.getJogador()); %> </b></h4>
-                </div>
-            </div>
-            <div class="col-sm-3 text-center">
-                <h4>
+                <br>
+                 <h4>
                     <%
                         out.println("Jogador 2 - " + tabuleiro.getJogadador2());
                         out.println("<p>");
@@ -133,6 +72,75 @@
                         out.println("Símbolo - " + tabuleiro.getJ2_O());
                     %>
                 </h4>
+            </div>
+
+            <div class="col-sm-6 text-center">
+                <h1>Jogo da Velha</h1>
+                <div class="col-sm-12 text-center">
+                    <div class="row text-center tabu">
+                        <div class="col-sm-2 linha" id="0" onclick="jogar(this);">
+                            <% if (tabuleiro.getTabuleiro() != null) {
+                                    out.println(tabu[0].toString());
+                                }
+                            %>
+                        </div>
+                        <div class="col-sm-2 linha" id="1" onclick="jogar(this);">
+                             <% if (tabuleiro.getTabuleiro() != null) {
+                                    out.println(tabu[1].toString());
+                                }
+                            %>
+                        </div>
+                        <div class="col-sm-2 linha" id="2" onclick="jogar(this);">
+                            <% if (tabuleiro.getTabuleiro() != null) {
+                                    out.println(tabu[2].toString());
+                                }
+                            %>
+                        </div>
+                    </div>
+                    <div class="row text-center tabu">
+                        <div class="col-sm-2 linha" id="3" onclick="jogar(this);">
+                             <% if (tabuleiro.getTabuleiro() != null) {
+                                    out.println(tabu[3].toString());
+                                }
+                            %>
+                        </div>
+                        <div class="col-sm-2 linha" id="4" onclick="jogar(this);">
+                            <% if (tabuleiro.getTabuleiro() != null) {
+                                    out.println(tabu[4].toString());
+                                }
+                            %>
+                        </div>
+                        <div class="col-sm-2 linha" id="5" onclick="jogar(this);">
+                            <% if (tabuleiro.getTabuleiro() != null) {
+                                    out.println(tabu[5].toString());
+                                }
+                            %>
+                        </div>
+                    </div>
+                    <div class="row text-center tabu">
+                        <div class="col-sm-2 linha" id="6" onclick="jogar(this);">
+                            <% if (tabuleiro.getTabuleiro() != null) {
+                                    out.println(tabu[6].toString());
+                                }
+                            %>
+                        </div>
+                        <div class="col-sm-2 linha" id="7" onclick="jogar(this);">
+                             <% if (tabuleiro.getTabuleiro() != null) {
+                                    out.println(tabu[7].toString());
+                                }
+                            %>
+                        </div>
+                        <div class="col-sm-2 linha" id="8"  onclick="jogar(this);">
+                            <% if (tabuleiro.getTabuleiro() != null) {
+                                    out.println(tabu[8].toString());
+                                }
+                            %>
+                        </div>
+                    </div>
+                            <h4>É sua vez - <b><% out.println(tabuleiro.getJogador()); %> </b></h4>
+                            <br>
+                            <a href="/JogoDaVelha">Começar Novamente</a>
+                </div>
             </div>
         </div>
     </body>
@@ -153,7 +161,7 @@
 		       simbolo: simbolo
 		},
                 success: function (result) {
-                    console.log("successo ao jogar...");
+                    $('.container-fluid').load('jogador.jsp');
                 }
             });
         }

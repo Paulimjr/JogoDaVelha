@@ -18,7 +18,9 @@ import javax.servlet.http.HttpSession;
  * @author paulo
  */
 public class JogoController extends HttpServlet {
-
+    
+    private final String INICIAR_JOGO = " ; ; ; ; ; ; ; ; ; ;";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -26,56 +28,86 @@ public class JogoController extends HttpServlet {
         //iniciando o jogo
         String urlPath = request.getServletPath();
         if (urlPath.equals("/JogoController")) {
-            
+
             String jogador1 = request.getParameter("jogador1");
             String jogador2 = request.getParameter("jogador2");
-            
+
             Tabuleiro tabuleiro = new Tabuleiro();
-            
             tabuleiro.setJogadador1(jogador1);
             tabuleiro.setJogadador2(jogador2);
-            tabuleiro.setJogador(tabuleiro.getJ1_X());
-            System.out.println("Iniciar em: "+tabuleiro.getJogador());
+            tabuleiro.setJogador(tabuleiro.getJ1_X()); // Setando o X pois ele que sempe começara.
+
             HttpSession session = request.getSession(true);
             session.setAttribute("tabuleiro", tabuleiro);
-            
+            tabuleiro.setTabuleiro(INICIAR_JOGO);
+
             Tabuleiro t = (Tabuleiro) session.getAttribute("tabuleiro");
-            
-            System.out.println("Jogador 1: "+t.getJogadador1());
-            System.out.println("Jogador 2: "+t.getJogadador2());
+
+            System.out.println("Jogador 1: " + t.getJogadador1());
+            System.out.println("Jogador 2: " + t.getJogadador2());
             //chamando a tabela inicial
-            response.sendRedirect("jogo.jsp");
+            response.sendRedirect("jogador.jsp");
         }
-        
+
         if (urlPath.equals("/JogoController/jogar")) {
-            
+
             String[] arrPosicao = (String[]) request.getParameterValues("posicao");
             String[] arrSimbolo = (String[]) request.getParameterValues("simbolo");
-            
+
             int pos = Integer.parseInt(arrPosicao[0]);
-            System.out.println("posicao jogada: "+pos); //mostra a posicao jogada
+            System.out.println("posicao jogada: " + pos); //mostra a posicao jogada
             String simbolo = arrSimbolo[0];
-            System.out.println("Simbolo: "+simbolo); // mostra o simbolo jogado
-            
+            System.out.println("Simbolo: " + simbolo); // mostra o simbolo jogado
+
             Tabuleiro tabu = (Tabuleiro) request.getSession().getAttribute("tabuleiro");
-            boolean valido = new JogadasController().verificaLocalPreenchido(pos, tabu);
+
+            boolean valido = new JogadasController().verificaLocalPreenchido(pos, tabu.getTabuleiro());
+            
             if (valido) {
-                tabu.getTabs().add(pos, simbolo);
+                String tabuNew = new JogadasController().efetuarJogada(pos, simbolo, tabu.getTabuleiro());
+                /**
+                 * 1 - alguem ganhou
+                 * 0 - ninguem ganhou ainda
+                 */
+                int ganhador = new JogadasController().verificarQuemGanhou(tabuNew, simbolo);
+                System.out.println("GANHADOR: "+ganhador);
                 
-                if (simbolo.equals("X")) { // VEZ DO O 
+                if (ganhador == 1) {
+                    // X GANHOU
+                    if (simbolo.equals(tabu.getJ1_X())) {
+                        String nomeGanhador = "Parabéns "+tabu.getJogadador1()+", você venceu!";
+                        System.out.println("Ganhou > "+nomeGanhador);
+                        
+                        request.getSession().setAttribute("nomeGanhador", nomeGanhador);
+                        request.getSession().setAttribute("tabuleiro", tabu);
+                        response.sendRedirect("acabou.jsp");
+                    }
+                    // O GANHOU
+                    if (simbolo.equals(tabu.getJ2_O())) {
+                        String nomeGanhador = "Parabéns "+tabu.getJogadador2()+", você venceu!";
+                        System.out.println("Ganhou > "+nomeGanhador);
+                        
+                        request.getSession().setAttribute("nomeGanhador", nomeGanhador);
+                        request.getSession().setAttribute("tabuleiro", tabu);
+                        response.sendRedirect("acabou.jsp");
+                    }
+                }
+                
+                tabu.setTabuleiro(tabuNew);
+                
+                if (simbolo.equals("X")) { // VEZ DO O
                     tabu.setJogador("O");
+                    request.getSession().setAttribute("tabuleiro", tabu);
                 }
                 if (simbolo.equals("O")) { // VEZ DO X
                     tabu.setJogador("X");
-                } 
+                    request.getSession().setAttribute("tabuleiro", tabu);
+                }
                 
-                new JogadasController().verPreenchimentos(tabu);
-                request.getSession().setAttribute("tabuleiro", tabu);
-                request.getRequestDispatcher("/").forward(request, response);
+                response.sendRedirect("/");
             }
         }
-        
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -116,6 +148,5 @@ public class JogoController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 
 }
