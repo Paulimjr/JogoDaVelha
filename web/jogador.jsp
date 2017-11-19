@@ -44,12 +44,19 @@
             <%
                 Tabuleiro tabuleiro = (Tabuleiro) request.getSession().getAttribute("tabuleiro");
                 String [] tabu = tabuleiro.getTabuleiro().split(";");
-                for (int x=0;x < tabu.length;x++) {
-                    System.out.println("TABULEIRO: POS: "+x+" -  Vlr: "+tabu[x]);
-                }
+                System.out.println("TABUUU: "+tabuleiro.getGanhador());
             %>
             
             <input type="hidden" name="simbolo" id="simbolo" value="<% out.print(tabuleiro.getJogador()); %>"/>
+            <%  if (tabuleiro.getGanhador() != null && !tabuleiro.getGanhador().isEmpty()) {                    
+                out.print("<div class='row-fluid text-center' id='d_vencedor'>");
+                if (tabuleiro.getGanhador() != null && !tabuleiro.getGanhador().isEmpty()) {
+                    out.print("<h2> "+tabuleiro.getGanhador()+"</h2>");
+                }
+                out.print("</div>");
+                }
+             %>
+            <input type="hidden" name="vencedor" id="vencedor" value="<% out.print(tabuleiro.getGanhador()); %>"/>
             
             <div class="col-sm-3 text-center">
                 <br>
@@ -139,7 +146,11 @@
                     </div>
                             <h4>É sua vez - <b><% out.println(tabuleiro.getJogador()); %> </b></h4>
                             <br>
-                            <a href="/JogoDaVelha">Começar Novamente</a>
+                            <form action="JogoController/comecarNovamente" method="POST">
+                                <button class="btn btn-primary" type="submit" value="Começar Novamente">Começar Novamente</button>
+                            </form>
+                            <br>
+                            <a href="/JogoDaVelha">Escolher jogadores novamente.</a>
                 </div>
             </div>
         </div>
@@ -147,11 +158,9 @@
 
     <script type="text/javascript">
 
-        function jogar(evento) {
+        function jogar(evento) { 
             var id = evento.id;
-            console.log("id > ",id);
             var simbolo = $("#simbolo").val().trim();
-            console.log("simbolo jogado: ",simbolo);
 
             $.ajax({
                 type: "POST",
@@ -161,10 +170,11 @@
 		       simbolo: simbolo
 		},
                 success: function (result) {
-                    $('.container-fluid').load('jogador.jsp');
+                    console.log(result);
+                    $('.container-fluid').load('jogador.jsp'); // carregar a página a cada jogada efetuada.       
                 }
-            });
+            });   
         }
-
+        
     </script>
 </html>

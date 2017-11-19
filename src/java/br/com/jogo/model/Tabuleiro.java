@@ -22,6 +22,7 @@ public class Tabuleiro implements Serializable {
     private String j1_X = "X";
     private String j2_O = "O";
     private String jogador;
+    private String ganhador;
     
     public String getTabs() {
         return tabuleiro;
@@ -78,7 +79,15 @@ public class Tabuleiro implements Serializable {
     public void setTabuleiro(String tabuleiro) {
         this.tabuleiro = tabuleiro;
     }
-   
+
+    public String getGanhador() {
+        return ganhador;
+    }
+
+    public void setGanhador(String ganhador) {
+        this.ganhador = ganhador;
+    }
+    
     @Override
     public String toString() {
         return "Tabeuleiro{" + "tabs=" + tabuleiro + ", jogadador1=" + jogadador1 + ", jogadador2=" + jogadador2 + ", j1_X=" + j1_X + ", j2_O=" + j2_O + '}';

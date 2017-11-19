@@ -100,9 +100,61 @@ public class JogadasController {
         if (tabu[6].equals(simbolo) && tabu[7].equals(simbolo) && tabu[8].equals(simbolo)) {
             GANHOU = 1;
         }
+        //////////////////////////
+        //verificando na horizontal
+        //1 coluna
+        if (tabu[0].equals(simbolo) && tabu[3].equals(simbolo) && tabu[6].equals(simbolo)) {
+            GANHOU = 1;
+        }
+        //2 coluna
+        if (tabu[1].equals(simbolo) && tabu[4].equals(simbolo) && tabu[7].equals(simbolo)) {
+            GANHOU = 1;
+        }
+        //3 coluna
+        if (tabu[2].equals(simbolo) && tabu[5].equals(simbolo) && tabu[8].equals(simbolo)) {
+            GANHOU = 1;
+        }
+        
+        //////////////////////////
+        // verificando na diagonal
+        if (tabu[0].equals(simbolo) && tabu[4].equals(simbolo) && tabu[8].equals(simbolo)) {
+            GANHOU = 1;
+        }
+        //3 coluna
+        if (tabu[2].equals(simbolo) && tabu[4].equals(simbolo) && tabu[6].equals(simbolo)) {
+            GANHOU = 1;
+        }
+        
 
         System.out.println("GANHOU ?? "+GANHOU);
         
         return GANHOU;
+    }
+    
+    /**
+     * Verificar se o jogo deu Nega (ninguem venceu)
+     * 
+     * @param tabuNew
+     * @param s
+     * @return 
+     */
+    public int verificarNenhumVencedor(String tabuNew, String s) {
+         String[] tabu = tabuNew.split(";");
+         String simbolo = s+" ";
+         
+         if (!tabu[0].equals(" ") 
+            && !tabu[1].equals(" ") 
+            && !tabu[2].equals(" ") 
+            && !tabu[3].equals(" ")
+            && !tabu[4].equals(" ")
+            && !tabu[5].equals(" ")
+            && !tabu[6].equals(" ")
+            && !tabu[7].equals(" ")
+            && !tabu[8].equals(" ")) {
+
+             GANHOU = 3;
+         }
+         
+         return GANHOU;
     }
 }

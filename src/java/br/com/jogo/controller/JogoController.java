@@ -48,7 +48,20 @@ public class JogoController extends HttpServlet {
             //chamando a tabela inicial
             response.sendRedirect("jogador.jsp");
         }
-
+        
+        //comencando o jogo novamente
+        if (urlPath.equals("/JogoController/comecarNovamente")) {
+            
+            
+            Tabuleiro tab = (Tabuleiro) request.getSession().getAttribute("tabuleiro");
+            tab.setGanhador("");
+            tab.setTabuleiro(INICIAR_JOGO);
+            tab.setJogador(tab.getJ1_X()); // Setando o X pois ele que sempe começara.
+            
+            request.getSession().setAttribute("tabuleiro", tab);
+            response.sendRedirect("/JogoDaVelha/jogador.jsp");
+        }
+        
         if (urlPath.equals("/JogoController/jogar")) {
 
             String[] arrPosicao = (String[]) request.getParameterValues("posicao");
@@ -68,31 +81,32 @@ public class JogoController extends HttpServlet {
                 /**
                  * 1 - alguem ganhou
                  * 0 - ninguem ganhou ainda
+                 * 3 - deu nega
                  */
                 int ganhador = new JogadasController().verificarQuemGanhou(tabuNew, simbolo);
                 System.out.println("GANHADOR: "+ganhador);
+                String nomeGanhador = "";
                 
                 if (ganhador == 1) {
                     // X GANHOU
                     if (simbolo.equals(tabu.getJ1_X())) {
-                        String nomeGanhador = "Parabéns "+tabu.getJogadador1()+", você venceu!";
-                        System.out.println("Ganhou > "+nomeGanhador);
-                        
-                        request.getSession().setAttribute("nomeGanhador", nomeGanhador);
-                        request.getSession().setAttribute("tabuleiro", tabu);
-                        response.sendRedirect("acabou.jsp");
+                         nomeGanhador = "Parabéns "+tabu.getJogadador1()+", você venceu!";
                     }
                     // O GANHOU
                     if (simbolo.equals(tabu.getJ2_O())) {
-                        String nomeGanhador = "Parabéns "+tabu.getJogadador2()+", você venceu!";
-                        System.out.println("Ganhou > "+nomeGanhador);
-                        
-                        request.getSession().setAttribute("nomeGanhador", nomeGanhador);
-                        request.getSession().setAttribute("tabuleiro", tabu);
-                        response.sendRedirect("acabou.jsp");
+                        nomeGanhador = "Parabéns "+tabu.getJogadador2()+", você venceu!";
                     }
                 }
                 
+                ganhador = new JogadasController().verificarNenhumVencedor(tabuNew, simbolo);
+                //Quer dizer que não houve ganhadores...
+                if (ganhador == 3) {
+                    nomeGanhador = "Ninguém venceu :( ... Começe novamente!";
+                    System.out.println("------------ Nao houve ganhadores ------------");
+                    
+                }
+                
+                tabu.setGanhador(nomeGanhador);
                 tabu.setTabuleiro(tabuNew);
                 
                 if (simbolo.equals("X")) { // VEZ DO O
